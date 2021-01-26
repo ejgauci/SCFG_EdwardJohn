@@ -29,6 +29,9 @@ public class customAIMoveScriptGrid : MonoBehaviour
     void Start()
     {
 
+        target = GameObject.Find("Target").transform;
+
+
         //Debug.Log(this.name);
 
         //the instance of the seeker attached to this game object
@@ -47,7 +50,7 @@ public class customAIMoveScriptGrid : MonoBehaviour
         //generate the initial path
         pathToFollow = seeker.StartPath(transform.position, target.position);
 
-        
+
 
         //update the graph as soon as you can.  Runs indefinitely
         StartCoroutine(updateGraph());
@@ -55,7 +58,6 @@ public class customAIMoveScriptGrid : MonoBehaviour
         //move the red robot towards the green enemy
         StartCoroutine(moveTowardsEnemy(this.transform));
     }
-
 
 
 
