@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
     {
         //addMultObstacles(5);
         addMultAI(10);
-        scan();
         StartAI();
     }
 

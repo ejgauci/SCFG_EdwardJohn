@@ -76,9 +76,6 @@ public class customAIMoveScriptGrid : MonoBehaviour
 
     }
 
-    
-
-
     IEnumerator moveTowardsEnemy(Transform t)
     {
 
@@ -119,6 +116,76 @@ public class customAIMoveScriptGrid : MonoBehaviour
         }
     }
 
+
+
+    /*
+         //the code that is going to move my target.
+         IEnumerator moveTarget()
+         {
+        //create a new list of positions.
+        List<Vector3> positions = new List<Vector3>();
+        //target's current position (the top position)
+        positions.Add(target.position);
+
+        //adding another position (the bottom position)
+        positions.Add(new Vector3(target.position.x, -target.position.y));
+
+        
+
+        //Class Task 1: Add another 5 positions to the circuit
+        //Class Task 2: Build a coroutine that will move the white obstacle up and down, INCLUDING the 4 nodes 
+
+        //starting position, the list of positions and a boolean parameter stating if the path is looped
+        StartCoroutine(moveTarget(target.transform, positions, true));
+
+
+
+        yield return null;
+
+          }
+
+
+    IEnumerator moveTarget(Transform t, List<Vector3> points, bool loop)
+    {
+        if (loop)
+        {
+            //needs to run indefinitely
+            while (true)
+            {
+                List<Vector3> forwardpoints = points;
+
+                foreach (Vector3 position in forwardpoints)
+                {
+                    while (Vector3.Distance(t.position, position) > 0.5f)
+                    {
+                        t.position = Vector3.MoveTowards(t.position, position, 1f);
+                        Debug.Log(position);
+                        yield return new WaitForSeconds(0.2f);
+                    }
+                }
+                //reverse the points supplied here
+                forwardpoints.Reverse();
+                yield return null;
+
+            }
+        }
+        else
+        {
+            foreach (Vector3 position in points)
+            {
+                while (Vector3.Distance(t.position, position) > 0.5f)
+                {
+                    t.position = Vector3.MoveTowards(t.position, position, 1f);
+                    
+                    yield return new WaitForSeconds(0.2f);
+                }
+            }
+            yield return null;
+        }
+
+
+    }
+     */
 
 }
 
