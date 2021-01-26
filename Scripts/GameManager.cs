@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,48 @@ public class GameManager : MonoBehaviour
 
     List<Vector3> recordPositions = new List<Vector3> { };
 
-  
+
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "Task1")
+        {
+            Task1Method();
+        }else
+        if (SceneManager.GetActiveScene().name == "Task2")
+        {
+            Task2Method();
+        }
+
+    }
+
+    private void Task1Method()
+    {
+        addMultObstacles(5);
+        scan();
+        StartAI();
+    }
+    private void Task2Method()
+    {
+        //addMultObstacles(5);
+        addMultAI(10);
+        scan();
+        StartAI();
+    }
+
+    private void addMultObstacles(int x)
+    {
+        for (int i = 0; i < x; i++)
+        {
+            addObstacle();
+        }
+    }
+    private void addMultAI(int x)
+    {
+        for (int i = 0; i < x; i++)
+        {
+            addAI();
+        }
+    }
 
 
     public void scan()
