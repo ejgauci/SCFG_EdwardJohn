@@ -7,7 +7,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
 {
 
     public List<Transform> wayPoints;
-    private int indexPoints = 0;
+    public int indexPoints = 0;
 
 
 
@@ -26,7 +26,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
 
  
 
-    public List<Transform> obstacleNodes;
+    //public List<Transform> obstacleNodes;
 
 
     // Start is called before the first frame update
@@ -63,16 +63,20 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
 
     private void Update()
     {
-        /*
+        
         if(this.transform.position == wayPoints[indexPoints].position)
         {
-            
-        }*/
-
-        if (indexPoints >= 10)
-        {
-            indexPoints = 0;
+            indexPoints++;
+            if (indexPoints > 9)
+            {
+                indexPoints = 0;
+            }
+            pathToFollow = seeker.StartPath(transform.position, wayPoints[indexPoints].position);
+            //StartCoroutine(updateGraph());
+            //StartCoroutine(moveTowardsEnemy(this.transform));
+            print("trigger" + indexPoints);
         }
+
     }
 
 
@@ -134,11 +138,20 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        /*
+
         indexPoints++;
-            pathToFollow = seeker.StartPath(transform.position, wayPoints[indexPoints].position);
+        if (indexPoints > 9)
+        {
+            indexPoints = 0;
+        }
+        pathToFollow = seeker.StartPath(transform.position, wayPoints[indexPoints].position);
             //StartCoroutine(updateGraph());
-            StartCoroutine(moveTowardsEnemy(this.transform));
+            //StartCoroutine(moveTowardsEnemy(this.transform));
             print("trigger" + indexPoints);
+
+        */
     }
 
 
