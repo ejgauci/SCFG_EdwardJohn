@@ -64,12 +64,12 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     private void Update()
     {
         /*
-        if(this.transform.position == wayPoints[index].position)
+        if(this.transform.position == wayPoints[indexPoints].position)
         {
-            index++;
+            
         }*/
 
-        if (indexPoints > 3)
+        if (indexPoints >= 10)
         {
             indexPoints = 0;
         }
@@ -135,9 +135,12 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         indexPoints++;
-        print("trigger" + indexPoints);
+            pathToFollow = seeker.StartPath(transform.position, wayPoints[indexPoints].position);
+            //StartCoroutine(updateGraph());
+            StartCoroutine(moveTowardsEnemy(this.transform));
+            print("trigger" + indexPoints);
     }
-    
+
 
 
 }
