@@ -67,14 +67,16 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         if(this.transform.position == wayPoints[indexPoints].position)
         {
             indexPoints++;
+
             if (indexPoints > 9)
             {
                 indexPoints = 0;
             }
+
             pathToFollow = seeker.StartPath(transform.position, wayPoints[indexPoints].position);
             //StartCoroutine(updateGraph());
             //StartCoroutine(moveTowardsEnemy(this.transform));
-            print("trigger" + indexPoints);
+            //print("trigger" + indexPoints);
         }
 
     }
@@ -136,6 +138,8 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         }
     }
     
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
