@@ -1,12 +1,17 @@
-﻿using System.Collections;
+﻿using Pathfinding;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Pathfinding;
-
-
-public class customAIMoveScriptGrid : MonoBehaviour
+public class obstaclePatrol : MonoBehaviour
 {
+    //public List<Transform> wayPoints;
+    public int indexPoints = 0;
+    public Transform wayPoint;
+
+
+
+
     //the object that we are using to generate the path
     Seeker seeker;
 
@@ -14,22 +19,19 @@ public class customAIMoveScriptGrid : MonoBehaviour
     Path pathToFollow;
 
     //a reference from the UI to the green box
-    public Transform target;
+    //public Transform target;
 
     //a reference to PointGraphObject
     GameObject graphParent;
 
-    //the node of the graph that is going to correspond with the green box
-    GameObject targetNode;
 
-    public List<Transform> obstacleNodes;
+
+    //public List<Transform> obstacleNodes;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //here the robot finds the target to go to
-        target = GameObject.Find("Target").transform;
 
 
         //Debug.Log(this.name);
@@ -39,16 +41,16 @@ public class customAIMoveScriptGrid : MonoBehaviour
 
 
         //node target by name
-        targetNode = GameObject.Find("TargetNode");
+        //targetNode = GameObject.Find("TargetNode");
 
         //find the parent node of the point graph
-         //graphParent = GameObject.Find("PointGraphObject");
+        //graphParent = GameObject.Find("PointGraphObject");
         graphParent = GameObject.Find("AStarGrid");
         //we scan the graph to generate it in memory
         graphParent.GetComponent<AstarPath>().Scan();
 
         //generate the initial path
-        pathToFollow = seeker.StartPath(transform.position, target.position);
+        pathToFollow = seeker.StartPath(transform.position, wayPoint.position);
 
 
 
@@ -58,7 +60,26 @@ public class customAIMoveScriptGrid : MonoBehaviour
         //move the red robot towards the green enemy
         StartCoroutine(moveTowardsEnemy(this.transform));
     }
+    /*
+    private void Update()
+    {
 
+        if (this.transform.position == wayPoint.position)
+        {
+            indexPoints++;
+
+            if (indexPoints > 9)
+            {
+                indexPoints = 0;
+            }
+
+            pathToFollow = seeker.StartPath(transform.position, wayPoint.position);
+            //StartCoroutine(updateGraph());
+            //StartCoroutine(moveTowardsEnemy(this.transform));
+            //print("trigger" + indexPoints);
+        }
+
+    }*/
 
 
     IEnumerator updateGraph()
@@ -66,7 +87,7 @@ public class customAIMoveScriptGrid : MonoBehaviour
         while (true)
         {
 
-      //   targetNode.transform.position = target.position;
+            //   targetNode.transform.position = target.position;
             graphParent.GetComponent<AstarPath>().Scan();
 
 
@@ -88,25 +109,26 @@ public class customAIMoveScriptGrid : MonoBehaviour
             for (int counter = 0; counter < posns.Count; counter++)
             {
                 // Debug.Log("Distance: " + Vector3.Distance(t.position, posns[counter]));
-                if (posns[counter] != null) { 
+                if (posns[counter] != null)
+                {
                     while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
                     {
                         t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
                         //since the enemy is moving, I need to make sure that I am following him
-                        pathToFollow = seeker.StartPath(t.position, target.position);
+                        pathToFollow = seeker.StartPath(t.position, wayPoint.position);
                         //wait until the path is generated
                         yield return seeker.IsDone();
                         //if the path is different, update the path that I need to follow
                         posns = pathToFollow.vectorPath;
 
-                      //  Debug.Log("@:" + t.position + " " + target.position + " " + posns[counter]);
+                        //  Debug.Log("@:" + t.position + " " + target.position + " " + posns[counter]);
                         yield return new WaitForSeconds(0.2f);
                     }
 
                 }
                 //keep looking for a path because if we have arrived the enemy will anyway move away
                 //This code allows us to keep chasing
-                pathToFollow = seeker.StartPath(t.position, target.position);
+                pathToFollow = seeker.StartPath(t.position, wayPoint.position);
                 yield return seeker.IsDone();
                 posns = pathToFollow.vectorPath;
                 //yield return null;
@@ -115,9 +137,4 @@ public class customAIMoveScriptGrid : MonoBehaviour
             yield return null;
         }
     }
-
-
-
 }
-
-
